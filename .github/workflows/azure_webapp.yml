@@ -12,6 +12,7 @@ env:
   PYTHON_VERSION: '3.10'
   AZURE_WEBAPP_NAME: 'fastapi-likith012'
   WORKING_DIRECTORY: '.'
+  STARTUP_COMMAND: 'alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000'
 
 jobs:
   build:
@@ -49,7 +50,7 @@ jobs:
     needs: build
     environment:
       name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      # url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
       - name: Download artifact from build job
@@ -57,13 +58,29 @@ jobs:
         with:
           name: python-app
           path: .
-          
-      - name: 'Deploy to Azure Web App'
+      
+      - name: Authenticate with Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Configure general settings for Azure App Service
+        uses: azure/appservice-settings@v1
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          mask-inputs: false
+          general-settings-json: '{"linuxFxVersion": "PYTHON|${{ env.PYTHON_VERSION }}"}' #'General configuration settings as Key Value pairs'
+
+      - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
-        id: deploy-to-webapp
+        # id: deploy-to-webapp
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D6796440B78E4649888B9A27D0C923FB }}
+          # publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D6796440B78E4649888B9A27D0C923FB }}
           package: ${{ env.WORKING_DIRECTORY }}
-          startup-command: 'alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT'
+          startup-command: ${{ env.STARTUP_COMMAND }}
+      
+      - name: Logout of Azure
+        run: |
+          az logout
