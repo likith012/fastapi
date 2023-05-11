@@ -8,6 +8,11 @@ on:
       - main
   workflow_dispatch:
 
+env:
+  PYTHON_VERSION: '3.10'
+  AZURE_WEBAPP_NAME: 'fastapi-likith012'
+  WORKING_DIRECTORY: '.'
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,7 +24,7 @@ jobs:
       - name: Set up Python version
         uses: actions/setup-python@v1
         with:
-          python-version: '3.10'
+          python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Create and start virtual environment
         run: |
@@ -57,8 +62,8 @@ jobs:
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
         with:
-          app-name: 'fastapi-likith012'
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D6796440B78E4649888B9A27D0C923FB }}
-          package: .
+          package: ${{ env.WORKING_DIRECTORY }}
           startup-command: 'alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT'
