@@ -12,7 +12,7 @@ def get_db():
     finally:
         db.close()
 
-SQLALCHEMY_DATABASE_URL = f"{settings.DATABASE_TYPE}://{settings.DATABASE_USERNAME}:{settings.DATABASE_PASSWORD}@{settings.DATABASE_HOSTNAME}/{settings.DATABASE_NAME}"
+SQLALCHEMY_DATABASE_URL = f"{settings.DATABASE_TYPE}://{settings.DATABASE_USERNAME}:{settings.DATABASE_PASSWORD}@{settings.DATABASE_HOSTNAME}:{settings.DATABASE_PORT}/{settings.DATABASE_NAME}"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
