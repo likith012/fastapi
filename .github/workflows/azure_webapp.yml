@@ -12,7 +12,7 @@ env:
   PYTHON_VERSION: '3.10'
   AZURE_WEBAPP_NAME: 'fastapi-likith012'
   WORKING_DIRECTORY: '.'
-  STARTUP_COMMAND: 'alembic upgrade head && uvicorn app.main:app --host 0.0.0.0'
+  STARTUP_COMMAND: 'alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT'
 
 jobs:
   build:
@@ -83,3 +83,4 @@ jobs:
       - name: Logout of Azure
         run: |
           az logout
+          
