@@ -93,7 +93,7 @@ jobs:
             wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
             sh Miniconda3-latest-Linux-x86_64.sh -b
             rm -f Miniconda3-latest-Linux-x86_64.sh
-            source /home/${{ vars.VM_USERNAME }}/.bashrc
+            source miniconda3/bin/activate 
             conda install python=${{ env.PYTHON_VERSION }}
             pip install -r requirements.txt
 
