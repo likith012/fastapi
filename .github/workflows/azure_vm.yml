@@ -84,7 +84,7 @@ jobs:
         with:
           host: ${{ vars.VM_IP_ADDRESS }}
           username: ${{ vars.VM_USERNAME }}
-          password: ${{ vars.VM_KEY }}
+          key: ${{ vars.VM_KEY }}
           source: ${{ env.WORKING_DIRECTORY }}
           target: '/home/${{ vars.VM_USERNAME }}'
 
@@ -93,7 +93,7 @@ jobs:
         with:
           host: ${{ vars.VM_IP_ADDRESS }}
           username: ${{ vars.VM_USERNAME }}
-          password: ${{ vars.VM_KEY }}
+          key: ${{ vars.VM_KEY }}
           script: |
             cd ${{ env.APP_NAME }}
             pip install -r requirements.txt
@@ -103,7 +103,7 @@ jobs:
         with:
           host: ${{ vars.VM_IP_ADDRESS }}
           username: ${{ vars.VM_USERNAME }}
-          password: ${{ vars.VM_KEY }}
+          key: ${{ vars.VM_KEY }}
           script: |
             cd ${{ env.APP_NAME }}
             ${{ env.STARTUP_COMMAND }}
