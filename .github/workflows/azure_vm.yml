@@ -15,55 +15,55 @@ env:
   STARTUP_COMMAND: 'alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000'
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+#   build:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout GitHub 
-        uses: actions/checkout@v2
+#     steps:
+#       - name: Checkout GitHub 
+#         uses: actions/checkout@v2
 
-      - name: Set up Python version
-        uses: actions/setup-python@v1
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
+#       - name: Set up Python version
+#         uses: actions/setup-python@v1
+#         with:
+#           python-version: ${{ env.PYTHON_VERSION }}
 
-      - name: Create and start virtual environment
-        working-directory: ${{ env.WORKING_DIRECTORY }}
-        run: |
-          python -m venv venv
-          source venv/bin/activate
+#       - name: Create and start virtual environment
+#         working-directory: ${{ env.WORKING_DIRECTORY }}
+#         run: |
+#           python -m venv venv
+#           source venv/bin/activate
       
-      - name: Install dependencies
-        working-directory: ${{ env.WORKING_DIRECTORY }}
-        run: pip install -r requirements.txt
+#       - name: Install dependencies
+#         working-directory: ${{ env.WORKING_DIRECTORY }}
+#         run: pip install -r requirements.txt
 
-      - name: Display structure of current files
-        run: ls -R
-        working-directory: ${{ env.WORKING_DIRECTORY }}
+#       - name: Display structure of current files
+#         run: ls -R
+#         working-directory: ${{ env.WORKING_DIRECTORY }}
         
-      # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
+#       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       
-      - name: Upload artifact for deployment jobs
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ env.APP_NAME }}
-          path: |
-            ${{ env.WORKING_DIRECTORY }}
-            !venv/
-            !.git/
-            !.github/
+#       - name: Upload artifact for deployment jobs
+#         uses: actions/upload-artifact@v2
+#         with:
+#           name: ${{ env.APP_NAME }}
+#           path: |
+#             ${{ env.WORKING_DIRECTORY }}
+#             !venv/
+#             !.git/
+#             !.github/
 
 
   deploy:
     runs-on: ubuntu-latest
-    needs: build
+    # needs: build
 
     steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v2
-        with:
-          name: ${{ env.APP_NAME }}
-          path: ${{ env.WORKING_DIRECTORY }}
+    #   - name: Download artifact from build job
+    #     uses: actions/download-artifact@v2
+    #     with:
+    #       name: ${{ env.APP_NAME }}
+    #       path: ${{ env.WORKING_DIRECTORY }}
 
       - name: Display structure of downloaded files
         run: ls -R
@@ -74,25 +74,26 @@ jobs:
 
       - name: Test
         run: |
-          echo ${{ env.VM_KEY }}
-          echo ${{ env.VM_USERNAME }}
-          echo ${{ env.VM_IP_ADDRESS }}
+          echo "asasa" > test.txt
+          echo ${{ vars.VM_KEY }}
+          echo ${{ vars.VM_USERNAME }}
+          echo ${{ vars.VM_IP_ADDRESS }}
             
       - name: Copy artifact to Azure VM
         uses: appleboy/scp-action@master
         with:
-          host: ${{ env.VM_IP_ADDRESS }}
-          username: ${{ env.VM_USERNAME }}
-          password: ${{ env.VM_KEY }}
+          host: ${{ vars.VM_IP_ADDRESS }}
+          username: ${{ vars.VM_USERNAME }}
+          password: ${{ vars.VM_KEY }}
           source: ${{ env.WORKING_DIRECTORY }}
-          target: '/home/${{ env.VM_USERNAME }}'
+          target: '/home/${{ vars.VM_USERNAME }}'
 
       - name: Install Dependencies
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ env.VM_IP_ADDRESS }}
-          username: ${{ env.VM_USERNAME }}
-          password: ${{ env.VM_KEY }}
+          host: ${{ vars.VM_IP_ADDRESS }}
+          username: ${{ vars.VM_USERNAME }}
+          password: ${{ vars.VM_KEY }}
           script: |
             cd ${{ env.APP_NAME }}
             pip install -r requirements.txt
@@ -100,9 +101,9 @@ jobs:
       - name: Start App
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ env.VM_IP_ADDRESS }}
-          username: ${{ env.VM_USERNAME }}
-          password: ${{ env.VM_KEY }}
+          host: ${{ vars.VM_IP_ADDRESS }}
+          username: ${{ vars.VM_USERNAME }}
+          password: ${{ vars.VM_KEY }}
           script: |
             cd ${{ env.APP_NAME }}
             ${{ env.STARTUP_COMMAND }}
