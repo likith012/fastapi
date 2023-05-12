@@ -81,16 +81,16 @@ jobs:
           source: ${{ env.WORKING_DIRECTORY }}
           target: '/home/${{ vars.VM_USERNAME }}'
 
-      - name: Install Dependencies
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ vars.VM_IP_ADDRESS }}
-          username: ${{ vars.VM_USERNAME }}
-          key: ${{ secrets.PRIVATE_KEY }}
-          script: |
-            sudo apt-get update
-            sudo apt-get install -y python3-pip
-            pip install -r requirements.txt
+    #   - name: Install Dependencies
+    #     uses: appleboy/ssh-action@master
+    #     with:
+    #       host: ${{ vars.VM_IP_ADDRESS }}
+    #       username: ${{ vars.VM_USERNAME }}
+    #       key: ${{ secrets.PRIVATE_KEY }}
+    #       script: |
+    #         sudo apt-get update
+    #         sudo apt-get install -y python3-pip
+    #         pip install -r requirements.txt
     
       - name: Start App
         uses: appleboy/ssh-action@master
@@ -99,7 +99,7 @@ jobs:
           username: ${{ vars.VM_USERNAME }}
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
-            ${{ env.STARTUP_COMMAND }}
+            bash scripts/azure_deploy.sh
 
       - name: Logout of Azure VM
         run: |
