@@ -93,7 +93,18 @@ jobs:
             wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
             sh Miniconda3-latest-Linux-x86_64.sh -b
             rm -f Miniconda3-latest-Linux-x86_64.sh
-            source miniconda3/bin/activate 
+            echo "source miniconda3/bin/activate" >> ~/.bashrc
+            echo "export DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> ~/.bashrc
+            echo "export SECRET_KEY=${{ secrets.SECRET_KEY }}" >> ~/.bashrc
+            echo "export DATABASE_HOSTNAME=${{ vars.DATABASE_HOSTNAME }}" >> ~/.bashrc
+            echo "export DATABASE_USERNAME=${{ vars.DATABASE_USERNAME }}" >> ~/.bashrc
+            echo "export DATABASE_NAME=${{ vars.DATABASE_NAME }}" >> ~/.bashrc
+            echo "export DATABASE_PORT=${{ vars.DATABASE_PORT }}" >> ~/.bashrc
+            echo "export DATABASE_TYPE=${{ vars.DATABASE_TYPE }}" >> ~/.bashrc
+            echo "export DATABASE_DRIVER=${{ vars.DATABASE_DRIVER }}" >> ~/.bashrc
+            echo "export ALGORITHM=${{ vars.ALGORITHM }}" >> ~/.bashrc
+            echo "export ACCESS_TOKEN_EXPIRE_MINUTES=${{ vars.ACCESS_TOKEN_EXPIRE_MINUTES }}" >> ~/.bashrc
+            source ~/.bashrc
             conda install python=${{ env.PYTHON_VERSION }}
             pip install -r requirements.txt
 
@@ -104,17 +115,6 @@ jobs:
           username: ${{ vars.VM_USERNAME }}
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
-            export DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}
-            export SECRET_KEY=${{ secrets.SECRET_KEY }}
-            export DATABASE_HOSTNAME=${{ vars.DATABASE_HOSTNAME }}
-            export DATABASE_USERNAME=${{ vars.DATABASE_USERNAME }}
-            export DATABASE_NAME=${{ vars.DATABASE_NAME }}
-            export DATABASE_PORT=${{ vars.DATABASE_PORT }}
-            export DATABASE_TYPE=${{ vars.DATABASE_TYPE }}
-            export DATABASE_DRIVER=${{ vars.DATABASE_DRIVER }}
-            export ALGORITHM=${{ vars.ALGORITHM }}
-            export ACCESS_TOKEN_EXPIRE_MINUTES=${{ vars.ACCESS_TOKEN_EXPIRE_MINUTES }}
-            source miniconda3/bin/activate 
             ${{ env.STARTUP_COMMAND }}
 
       - name: Logout of Azure VM
