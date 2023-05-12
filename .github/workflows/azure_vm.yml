@@ -104,6 +104,17 @@ jobs:
           username: ${{ vars.VM_USERNAME }}
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
+            export DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}
+            export SECRET_KEY=${{ secrets.SECRET_KEY }}
+            export DATABASE_HOSTNAME=${{ vars.DATABASE_HOSTNAME }}
+            export DATABASE_USERNAME=${{ vars.DATABASE_USERNAME }}
+            export DATABASE_NAME=${{ vars.DATABASE_NAME }}
+            export DATABASE_PORT=${{ vars.DATABASE_PORT }}
+            export DATABASE_TYPE=${{ vars.DATABASE_TYPE }}
+            export DATABASE_DRIVER=${{ vars.DATABASE_DRIVER }}
+            export ALGORITHM=${{ vars.ALGORITHM }}
+            export ACCESS_TOKEN_EXPIRE_MINUTES=${{ vars.ACCESS_TOKEN_EXPIRE_MINUTES }}
+            source miniconda3/bin/activate 
             ${{ env.STARTUP_COMMAND }}
 
       - name: Logout of Azure VM

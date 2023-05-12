@@ -14,6 +14,6 @@ class Settings(BaseSettings):
     # JWT   
     SECRET_KEY: str
     ALGORITHM: str
-    ACEESS_TOKEN_EXPIRE_MINUTES: int
+    ACCESS_TOKEN_EXPIRE_MINUTES: int
 
 settings = Settings(_env_file='.env', _env_file_encoding='utf-8')
