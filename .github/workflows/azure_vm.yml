@@ -71,6 +71,12 @@ jobs:
       
       - name: Install SSH client
         run: sudo apt-get update && sudo apt-get install -y openssh-client
+
+      - name: Test
+        run: |
+          echo ${{ env.VM_KEY }}
+          echo ${{ env.VM_USERNAME }}
+          echo ${{ env.VM_IP_ADDRESS }}
             
       - name: Copy artifact to Azure VM
         uses: appleboy/scp-action@master
