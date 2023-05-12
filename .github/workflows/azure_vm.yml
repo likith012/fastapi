@@ -81,17 +81,22 @@ jobs:
           source: ${{ env.WORKING_DIRECTORY }}
           target: '/home/${{ vars.VM_USERNAME }}'
 
-    #   - name: Install Dependencies
-    #     uses: appleboy/ssh-action@master
-    #     with:
-    #       host: ${{ vars.VM_IP_ADDRESS }}
-    #       username: ${{ vars.VM_USERNAME }}
-    #       key: ${{ secrets.PRIVATE_KEY }}
-    #       script: |
-    #         sudo apt-get update
-    #         sudo apt-get install -y python3-pip
-    #         pip install -r requirements.txt
-    
+      - name: Install Dependencies
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ vars.VM_IP_ADDRESS }}
+          username: ${{ vars.VM_USERNAME }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: |
+            sudo apt-get update
+            sudo apt-get install -y --no-install-recommends wget unzip nginx supervisor ca-certificates
+            wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+            sh Miniconda3-latest-Linux-x86_64.sh -b
+            rm -f Miniconda3-latest-Linux-x86_64.sh
+            source /home/${{ vars.VM_USERNAME }}/.bashrc
+            conda install python=${{ env.PYTHON_VERSION }}
+            pip install -r requirements.txt
+
       - name: Start App
         uses: appleboy/ssh-action@master
         with:
@@ -99,7 +104,7 @@ jobs:
           username: ${{ vars.VM_USERNAME }}
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
-            bash scripts/azure_deploy.sh
+            ${{ env.STARTUP_COMMAND }}
 
       - name: Logout of Azure VM
         run: |
