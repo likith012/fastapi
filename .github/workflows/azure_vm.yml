@@ -57,8 +57,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    environment:
-      name: 'Production'
 
     steps:
       - name: Download artifact from build job
@@ -77,18 +75,18 @@ jobs:
       - name: Copy artifact to Azure VM
         uses: appleboy/scp-action@master
         with:
-          host: ${{ secrets.VM_IP_ADDRESS }}
-          username: ${{ secrets.VM_USERNAME }}
-          password: ${{ secrets.VM_KEY }}
+          host: ${{ env.VM_IP_ADDRESS }}
+          username: ${{ env.VM_USERNAME }}
+          password: ${{ env.VM_KEY }}
           source: ${{ env.WORKING_DIRECTORY }}
-          target: '/home/${{ secrets.VM_USERNAME }}'
+          target: '/home/${{ env.VM_USERNAME }}'
 
       - name: Install Dependencies
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.VM_IP_ADDRESS }}
-          username: ${{ secrets.VM_USERNAME }}
-          password: ${{ secrets.VM_KEY }}
+          host: ${{ env.VM_IP_ADDRESS }}
+          username: ${{ env.VM_USERNAME }}
+          password: ${{ env.VM_KEY }}
           script: |
             cd ${{ env.APP_NAME }}
             pip install -r requirements.txt
@@ -96,9 +94,9 @@ jobs:
       - name: Start App
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.VM_IP_ADDRESS }}
-          username: ${{ secrets.VM_USERNAME }}
-          password: ${{ secrets.VM_KEY }}
+          host: ${{ env.VM_IP_ADDRESS }}
+          username: ${{ env.VM_USERNAME }}
+          password: ${{ env.VM_KEY }}
           script: |
             cd ${{ env.APP_NAME }}
             ${{ env.STARTUP_COMMAND }}
