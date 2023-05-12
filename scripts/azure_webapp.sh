@@ -1,11 +1,11 @@
-# Create a virtual environment named 'venv'
-python -m venv venv
+# # Create a virtual environment named 'venv'
+# python -m venv venv
 
-# Activate the virtual environment
-source venv/bin/activate
+# # Activate the virtual environment
+# source venv/bin/activate
 
-# Install all the packages listed in the 'requirements.txt' file
-pip install -r requirements.txt
+# # Install all the packages listed in the 'requirements.txt' file
+# pip install -r requirements.txt
 
 # Run Alembic to apply any pending database migrations
 alembic upgrade head
