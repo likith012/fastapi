@@ -80,7 +80,7 @@ jobs:
           host: ${{ secrets.VM_IP_ADDRESS }}
           username: ${{ secrets.VM_USERNAME }}
           password: ${{ secrets.VM_KEY }}
-          source: ${{ env.APP_NAME }}
+          source: ${{ env.WORKING_DIRECTORY }}
           target: '/home/${{ secrets.VM_USERNAME }}'
 
       - name: Install Dependencies
