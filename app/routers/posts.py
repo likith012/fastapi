@@ -30,7 +30,7 @@ def get_posts(limit: Union[int, None] = None, skip: int = 0, search: Union[str, 
     return getall_posts
 
 
-@router.get("/{id}", status_code=status.HTTP_200_OK, response_model=schemas.ResponseOut)
+@router.get("/{id}/", status_code=status.HTTP_200_OK, response_model=schemas.ResponseOut)
 def get_post(id: int, db: Session = Depends(get_db), current_user: models.User = Depends(oauth2.get_current_user)):
     posts_with_votes = db.query(models.Post, func.count(models.Vote.post_id).label("Likes")).outerjoin(models.Vote, models.Vote.post_id == models.Post.post_id).group_by(models.Post.post_id)
     get_post_id = posts_with_votes.filter(models.Post.post_id == id).first()
@@ -50,7 +50,7 @@ def create_post(post: schemas.RequestCreate, db: Session = Depends(get_db), curr
     return new_post
 
 
-@router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{id}/", status_code=status.HTTP_204_NO_CONTENT)
 def delete_post(id: int, db: Session = Depends(get_db), current_user: models.User = Depends(oauth2.get_current_user)):
     del_post = db.query(models.Post).filter(models.Post.post_id == id)
     
@@ -65,7 +65,7 @@ def delete_post(id: int, db: Session = Depends(get_db), current_user: models.Use
     return 
 
 
-@router.put("/{id}", status_code=status.HTTP_202_ACCEPTED, response_model=schemas.ResponseBase)
+@router.put("/{id}/", status_code=status.HTTP_202_ACCEPTED, response_model=schemas.ResponseBase)
 def update_post(id: int, post: schemas.RequestUpdate, db: Session = Depends(get_db), current_user: models.User = Depends(oauth2.get_current_user)):
     update_post = db.query(models.Post).filter(models.Post.post_id == id)
     

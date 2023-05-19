@@ -9,7 +9,7 @@ from .. import database, models, utils, oauth2, schemas
 
 router = APIRouter(tags=["Auth"])
 
-@router.get("/token", response_model=schemas.AccessToken)
+@router.post("/token/", response_model=schemas.AccessToken, status_code=status.HTTP_200_OK)
 def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(database.get_db)):
     user = db.query(models.User).filter(models.User.email == form_data.username).first()
     

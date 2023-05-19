@@ -21,7 +21,7 @@ def get_user(limit: int = -1, skip: int = 0, db: Session = Depends(get_db)):
     return getall_users
 
 
-@router.get("/{id}", status_code=status.HTTP_200_OK, response_model=schemas.UserGetOut)
+@router.get("/{id}/", status_code=status.HTTP_200_OK, response_model=schemas.UserGetOut)
 def get_user(id: int, db: Session = Depends(get_db)):
     get_user_id = db.query(models.User).filter(models.User.user_id == id).first()
     

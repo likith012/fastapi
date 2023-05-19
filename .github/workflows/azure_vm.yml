@@ -1,6 +1,6 @@
 # Multi-Stage build with build and deploy jobs to deploy on Azure VM
 
-name: Build and deploy FastApi Python app to Azure VM
+name: Deployment
 
 on:
   push:

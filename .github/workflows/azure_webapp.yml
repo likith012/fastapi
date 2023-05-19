@@ -1,6 +1,6 @@
-# Multi-Stage build with build and deploy jobs
+# Multi-Stage build with build and deploy jobs to Azure Web App
 
-name: Build and deploy FastApi Python app to Azure Web App 
+name: Deployment to Azure Web App 
 
 on:
   push:

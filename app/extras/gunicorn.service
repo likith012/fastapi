@@ -1,0 +1,17 @@
+[Unit]
+Description=Gunicorn systemd service using uvicorn worker class
+After=network.target
+
+[Service]
+User=likith012
+Group=likith012
+WorkingDirectory=/home/likith012
+Environment="PATH=/home/likith012/miniconda3/bin"
+EnvironmentFile=/home/likith012/.env
+ExecStart=/home/likith012/miniconda3/bin/gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app --bind localhost:8000
+Type=simple
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

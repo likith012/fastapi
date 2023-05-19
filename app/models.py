@@ -4,6 +4,7 @@ from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 
 from .database import Base
+# from .database import engine
 
 class Post(Base):
     __tablename__ = "posts"
@@ -37,3 +38,6 @@ class Vote(Base):
 
     post = relationship("Post")
     user = relationship("User")
+
+# Create the database using sqlalchemy 
+# Base.metadata.create_all(bind=engine)
