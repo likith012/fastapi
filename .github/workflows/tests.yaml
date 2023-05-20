@@ -1,6 +1,6 @@
 # Workflow for Unit Testing and Code Coverage
 
-name: Tests and Coverage
+name: Testing
 
 on:
   push:
