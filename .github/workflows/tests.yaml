@@ -35,7 +35,7 @@ jobs:
         image: postgres:13.3
         env:
           POSTGRES_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-          POSTGRES_DB: ${{ vars.DATABASE_NAME }}
+          POSTGRES_DB: ${{ vars.DATABASE_NAME }}_test # SQLAlchemy configured the same way
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
