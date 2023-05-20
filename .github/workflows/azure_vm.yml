@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout GitHub 
+      - name: Checkout GitHub
         uses: actions/checkout@v2
 
       - name: Set up Python version
@@ -32,7 +32,7 @@ jobs:
         run: |
           python -m venv venv
           source venv/bin/activate
-      
+
       - name: Install dependencies
         working-directory: ${{ env.WORKING_DIRECTORY }}
         run: pip install -r requirements.txt
@@ -40,9 +40,9 @@ jobs:
       - name: Display structure of current files
         run: ls -R
         working-directory: ${{ env.WORKING_DIRECTORY }}
-        
+
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
-      
+
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v2
         with:
@@ -68,10 +68,10 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
         working-directory: ${{ env.WORKING_DIRECTORY }}
-      
+
       - name: Install SSH client
         run: sudo apt-get update && sudo apt-get install -y openssh-client
-            
+
       - name: Copy artifact to Azure VM
         uses: appleboy/scp-action@master
         with:
@@ -120,4 +120,3 @@ jobs:
       - name: Logout of Azure VM
         run: |
           ssh-agent -k
-          

@@ -1,7 +1,7 @@
 """Adding tables and columns
 
 Revision ID: 59d84e4bca91
-Revises: 
+Revises:
 Create Date: 2023-05-12 05:16:05.273587
 
 """
