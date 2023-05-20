@@ -12,7 +12,38 @@ on:
   workflow_dispatch: 
 
 jobs:
-  testing:
+  lint:
+    
+    name: Linting and Formatting
+    runs-on: ubuntu-latest
+
+    environment: 
+      name: 'Testing'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run Super-Linter
+        uses: github/super-linter@v5
+        env:
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # - uses: psf/black@stable
+      #   with:
+      #     jupyter: true
+
+      # - name: Set up Python
+      #   uses: actions/setup-python@v2
+      #   with:
+      #     python-version: '3.10'
+
+      
+      
+
+  test:
+    name: Testing
     runs-on: ubuntu-latest
 
     environment: 
