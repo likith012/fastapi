@@ -12,11 +12,38 @@ on:
   workflow_dispatch: 
 
 jobs:
-  test:
+  testing:
     runs-on: ubuntu-latest
+
+    environment: 
+      name: 'Testing'
+      
+    env:
+      DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      DATABASE_HOSTNAME: ${{ vars.DATABASE_HOSTNAME }}
+      DATABASE_USERNAME: ${{ vars.DATABASE_USERNAME }}
+      DATABASE_NAME: ${{ vars.DATABASE_NAME }}
+      DATABASE_PORT: ${{ vars.DATABASE_PORT }}
+      DATABASE_TYPE: ${{ vars.DATABASE_TYPE }}
+      DATABASE_DRIVER: ${{ vars.DATABASE_DRIVER }}
+      ALGORITHM: ${{ vars.ALGORITHM }}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${{ vars.ACCESS_TOKEN_EXPIRE_MINUTES }}
+
+    services:
+      postgres:
+        image: postgres:13.3
+        env:
+          POSTGRES_USER: ${{ vars.DATABASE_USERNAME }}
+          POSTGRES_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+          POSTGRES_DB: ${{ vars.DATABASE_NAME }}
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
     strategy:
       matrix:
-        python-version: [3.8, 3.7, 3.9, 3.10]
+        python-version: ['3.7', '3.8', '3.9', '3.10']
 
     steps:
       - name: Checkout code

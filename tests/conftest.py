@@ -101,5 +101,4 @@ def like_create(user_create, post_create, session):
     session.add(models.Vote(**like_data))
     session.commit()
     likes = session.query(models.Vote).filter(models.Vote.post_id == post_create[0].post_id).filter(models.Vote.user_id == user_create['user_id']).first()
-    print(likes)
     return likes
