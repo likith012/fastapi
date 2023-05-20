@@ -18,7 +18,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-    
+
+
 @app.get("/", status_code=status.HTTP_200_OK)
 def root():
     return {"message": "Hello World"}

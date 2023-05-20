@@ -3,6 +3,7 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 
 from .config import settings
 
+
 # Dependency
 def get_db():
     db = SessionLocal()
@@ -10,6 +11,7 @@ def get_db():
         yield db
     finally:
         db.close()
+
 
 SQLALCHEMY_DATABASE_URL = f"{settings.DATABASE_TYPE}://{settings.DATABASE_USERNAME}:{settings.DATABASE_PASSWORD}@{settings.DATABASE_HOSTNAME}:{settings.DATABASE_PORT}/{settings.DATABASE_NAME}"
 
