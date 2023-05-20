@@ -3,13 +3,13 @@
 """
 
 
-from fastapi import FastAPI, HTTPException, status
-from pydantic import BaseModel
-import psycopg2
 import time
 from typing import Optional
-from psycopg2.extras import RealDictCursor
 
+import psycopg2
+from fastapi import FastAPI, HTTPException, status
+from psycopg2.extras import RealDictCursor
+from pydantic import BaseModel
 
 while True:
     try:

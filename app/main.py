@@ -1,8 +1,7 @@
 from fastapi import FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
 
-from .routers import posts, users, auth, votes
-
+from .routers import auth, posts, users, votes
 
 app = FastAPI()
 app.include_router(posts.router)

@@ -1,15 +1,14 @@
+import pytest
+from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from fastapi.testclient import TestClient
-import pytest
 
+from app import models
 from app.config import settings
+from app.database import get_db
 from app.main import app
 from app.models import Base
-from app.database import get_db
 from app.oauth2 import create_access_token
-from app import models
-
 
 SQLALCHEMY_DATABASE_URL = f"{settings.DATABASE_TYPE}://{settings.DATABASE_USERNAME}:{settings.DATABASE_PASSWORD}@{settings.DATABASE_HOSTNAME}:{settings.DATABASE_PORT}/{settings.DATABASE_NAME}_test"
 

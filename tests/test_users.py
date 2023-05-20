@@ -1,4 +1,4 @@
-from app import schemas, models
+from app import models, schemas
 
 
 def test_create_user(client):
