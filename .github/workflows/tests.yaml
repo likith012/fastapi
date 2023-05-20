@@ -64,6 +64,11 @@ jobs:
             cd $GITHUB_WORKSPACE
             pytest --cov-report=xml --cov=app
 
+      - name: Upload coverage report to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
       - name: Upload code coverage report
         uses: actions/upload-artifact@v2
         with:
