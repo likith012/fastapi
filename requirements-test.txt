@@ -12,7 +12,6 @@ SQLAlchemy==2.0.12
 SQLAlchemy-Utils==0.41.1
 starlette==0.26.1
 httptools==0.5.0
-python-dotenv==1.0.0
 pytest==7.3.1
 pytest-cov==4.0.0
 pytest-sugar==0.9.7
