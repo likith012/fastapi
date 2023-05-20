@@ -34,7 +34,6 @@ jobs:
       postgres:
         image: postgres:13.3
         env:
-          POSTGRES_USER: ${{ vars.DATABASE_USERNAME }}
           POSTGRES_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           POSTGRES_DB: ${{ vars.DATABASE_NAME }}
         ports:
