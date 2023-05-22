@@ -61,6 +61,7 @@ jobs:
         run: |
           mkdir -p super-linter
           mv *.html super-linter/
+          ls -l
 
       - name: Publish super-linter reports to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
