@@ -58,6 +58,7 @@ jobs:
           git init
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git remote add origin "https://github.com/${{ github.repository }}.git"
           git add .
           git commit -m "Update super-linter reports"
           git pull origin ${{ env.GITHUB_PAGES_BRANCH }}
