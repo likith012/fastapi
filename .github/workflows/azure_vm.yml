@@ -3,11 +3,10 @@
 name: Deployment
 
 on:
-  # workflow_run:
-  #   workflows: ["Testing"]
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Testing"]
+    types:
+      - completed
   workflow_dispatch:
 
 env:

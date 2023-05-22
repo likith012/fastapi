@@ -53,12 +53,15 @@ jobs:
           mv $GITHUB_WORKSPACE/*.html super-linter/
 
       - name: Git Auto Commit to push super-linter reports
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: "Update super-linter reports"
-          commit_options: '--no-verify --signoff --no-gpg-sign'
-          branch: ${{ env.GITHUB_PAGES_BRANCH }}
-          create_branch: true
+        run: |
+          cd super-linter
+          git init
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git add .
+          git commit -m "Update super-linter reports"
+          git pull origin ${{ env.GITHUB_PAGES_BRANCH }}
+          git push --force "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:${{ env.GITHUB_PAGES_BRANCH }}
 
 
   test:
