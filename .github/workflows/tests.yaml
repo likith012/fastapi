@@ -60,8 +60,10 @@ jobs:
 
       - name: Move super-linter report files
         run: |
+          ls -l
           mkdir -p super-linter
           ls -l
+          ls -l super-linter
           mv *.html super-linter/
 
 
