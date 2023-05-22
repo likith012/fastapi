@@ -30,9 +30,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # - uses: psf/black@stable
-      #   with:
-      #     jupyter: true
+      - uses: psf/black@stable
+        with:
+          jupyter: true
 
       # - name: Run Super-Linter
       #   uses: github/super-linter@v5
