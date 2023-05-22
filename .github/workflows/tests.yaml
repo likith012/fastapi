@@ -35,32 +35,6 @@ jobs:
         with:
           jupyter: true
 
-      # - name: Run Super-Linter
-      #   uses: github/super-linter@v5
-      #   env:
-      #     DEFAULT_BRANCH: main
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     DISABLE_ERRORS: true
-      #     VALIDATE_ALL_CODEBASE: false
-      #     OUTPUT_DETAILS: html
-
-      # - name: Move super-linter report files
-      #   run: |
-      #     mkdir -p super-linter
-      #     echo "Moving super-linter reports to super-linter directory" > index.html
-      #     echo $PWD
-      #     echo $GITHUB_WORKSPACE
-      #     ls -l
-      #     mv $GITHUB_WORKSPACE/*.html super-linter/
-
-      # - name: Git Auto Commit to push super-linter reports
-      #   uses: stefanzweifel/git-auto-commit-action@v4
-      #   with:
-      #     commit_message: "Update super-linter reports"
-      #     commit_options: '--no-verify --signoff --no-gpg-sign'
-      #     branch: ${{ env.GITHUB_PAGES_BRANCH }}
-      #     create_branch: true
-
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python@master
         continue-on-error: true
@@ -73,6 +47,30 @@ jobs:
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: snyk.sarif
+
+      - name: Run Super-Linter
+        uses: github/super-linter@v5
+        env:
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DISABLE_ERRORS: true
+          VALIDATE_ALL_CODEBASE: false
+          OUTPUT_DETAILS: html
+
+      - name: Move super-linter report files
+        run: |
+          mkdir -p super-linter
+          mv $GITHUB_WORKSPACE/*.html super-linter/
+          shopt -s extglob
+          rm -rf !(super-linter)
+
+      - name: Git Auto Commit to push super-linter reports
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Update super-linter reports"
+          commit_options: '--no-verify --signoff --no-gpg-sign'
+          branch: ${{ env.GITHUB_PAGES_BRANCH }}
+          create_branch: true
 
 
   test:
