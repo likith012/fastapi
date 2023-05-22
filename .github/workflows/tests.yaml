@@ -20,6 +20,12 @@ jobs:
     environment:
       name: 'Testing'
 
+    env:
+      GITHUB_PAGES_BRANCH: gh-pages
+
+    permissions:
+      contents: write
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -35,7 +41,23 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DISABLE_ERRORS: true
           VALIDATE_ALL_CODEBASE: false
-          OUTPUT_DETAILS: detailed
+          OUTPUT_DETAILS: html
+
+      - name: Move super-linter report files
+        run: |
+          mkdir -p super-linter
+          mv $GITHUB_WORKSPACE/*.html super-linter/
+
+      - name: Git Auto Commit to push super-linter reports
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Update super-linter reports"
+          commit_options: '--no-verify --signoff --no-gpg-sign'
+          repository: ${{ github.repository }}
+          branch: ${{ env.GITHUB_PAGES_BRANCH }}
+          create_branch: true
+          file_pattern: super-linter/*.html
+
 
   test:
     name: Testing
