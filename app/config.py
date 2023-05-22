@@ -10,10 +10,11 @@ class Settings(BaseSettings):
     DATABASE_PASSWORD: str
     DATABASE_NAME: str
     DATABASE_USERNAME: str
-    
-    # JWT   
+
+    # JWT
     SECRET_KEY: str
     ALGORITHM: str
     ACCESS_TOKEN_EXPIRE_MINUTES: int
 
-settings = Settings(_env_file='.env', _env_file_encoding='utf-8')
+
+settings = Settings(_env_file=".env", _env_file_encoding="utf-8")

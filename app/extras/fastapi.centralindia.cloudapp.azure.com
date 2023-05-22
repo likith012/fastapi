@@ -2,8 +2,8 @@ server {
         listen 80;
         listen [::]:80;
 
-        server_name fastapi.centralindia.cloudapp.azure.com; 
-        
+        server_name fastapi.centralindia.cloudapp.azure.com;
+
         location / {
                 proxy_pass http://localhost:8000;
                 proxy_http_version 1.1;

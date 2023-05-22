@@ -1,6 +1,6 @@
 # Multi-Stage build with build and deploy jobs to Azure Web App
 
-name: Deployment to Azure Web App 
+name: Deployment to Azure Web App
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout GitHub 
+      - name: Checkout GitHub
         uses: actions/checkout@v2
 
       - name: Set up Python version
@@ -31,18 +31,18 @@ jobs:
         run: |
           python -m venv venv
           source venv/bin/activate
-      
+
       - name: Install dependencies
         run: pip install -r requirements.txt
-        
+
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
-      
+
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v2
         with:
           name: python-app
           path: |
-            . 
+            .
             !venv/
 
   deploy:
@@ -58,7 +58,7 @@ jobs:
         with:
           name: python-app
           path: .
-      
+
       - name: Authenticate with Azure
         uses: azure/login@v1
         with:
@@ -79,8 +79,7 @@ jobs:
           # slot-name: 'Production'
           package: ${{ env.WORKING_DIRECTORY }}
           startup-command: ${{ env.STARTUP_COMMAND }}
-      
+
       - name: Logout of Azure
         run: |
           az logout
-          

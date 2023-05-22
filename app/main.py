@@ -1,8 +1,7 @@
 from fastapi import FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
 
-from .routers import posts, users, auth, votes
-
+from .routers import auth, posts, users, votes
 
 app = FastAPI()
 app.include_router(posts.router)
@@ -18,7 +17,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-    
+
+
 @app.get("/", status_code=status.HTTP_200_OK)
 def root():
     return {"message": "Hello World"}
