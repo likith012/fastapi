@@ -48,30 +48,41 @@ jobs:
         with:
           sarif_file: snyk.sarif
 
-      - name: Run Super-Linter
-        uses: github/super-linter@v5
+      # - name: Run Super-Linter
+      #   uses: github/super-linter@v5
+      #   env:
+      #     DEFAULT_BRANCH: main
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     DISABLE_ERRORS: true
+      #     VALIDATE_ALL_CODEBASE: true
+          # OUTPUT_DETAILS: detailed
+
+      - name: Run Super-Linter and capture output
+        uses: actions/github-script@v5
         env:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DISABLE_ERRORS: true
           VALIDATE_ALL_CODEBASE: true
-          OUTPUT_FORMAT: html
           OUTPUT_DETAILS: detailed
+        with:
+          script: |
+            const response = await github.actions.run('github/super-linter@v5');
+            const output = response.outputs.linter_output;
+            require('fs').writeFileSync('linter.log', output);
 
-      - name: Move super-linter report files
+
+
+      - name: Generate HTML Report
         run: |
-          ls -l
-          mkdir -p super-linter
-          ls -l
-          ls -l super-linter
-          mv *.html super-linter/
-
+          mkdir -p reports
+          markdownlint -i "${GITHUB_WORKSPACE}/linter.log" -o reports/linter.html
 
       - name: Publish super-linter reports to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./super-linter
+          publish_dir: ./reports
 
 
   test:
