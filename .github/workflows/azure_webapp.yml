@@ -3,8 +3,8 @@
 name: Deployment to Azure Web App
 
 on:
-  workflow_run:
-    workflows: ["Testing"]
+  # workflow_run:
+  #   workflows: ["Testing"]
   push:
     branches:
       - main
