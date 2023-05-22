@@ -48,6 +48,8 @@ jobs:
           mkdir -p super-linter
           echo "Moving super-linter reports to super-linter directory" > index.html
           echo $PWD
+          echo $GITHUB_WORKSPACE
+          ls -l
           mv $GITHUB_WORKSPACE/*.html super-linter/
 
       - name: Git Auto Commit to push super-linter reports
