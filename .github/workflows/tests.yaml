@@ -54,7 +54,6 @@ jobs:
           commit_message: "Update super-linter reports"
           commit_options: '--no-verify --signoff --no-gpg-sign'
           repository: ${{ github.repository }}
-          branch: ${{ env.GITHUB_PAGES_BRANCH }}
           create_branch: true
           file_pattern: super-linter/*.html
 
