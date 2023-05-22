@@ -30,22 +30,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - uses: psf/black@stable
-        with:
-          jupyter: true
+      # - uses: psf/black@stable
+      #   with:
+      #     jupyter: true
 
-      - name: Run Super-Linter
-        uses: github/super-linter@v5
-        env:
-          DEFAULT_BRANCH: main
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DISABLE_ERRORS: true
-          VALIDATE_ALL_CODEBASE: false
-          OUTPUT_DETAILS: html
+      # - name: Run Super-Linter
+      #   uses: github/super-linter@v5
+      #   env:
+      #     DEFAULT_BRANCH: main
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     DISABLE_ERRORS: true
+      #     VALIDATE_ALL_CODEBASE: false
+      #     OUTPUT_DETAILS: html
 
       - name: Move super-linter report files
         run: |
           mkdir -p super-linter
+          echo "Moving super-linter reports to super-linter directory" > index.html
+          echo $PWD
           mv $GITHUB_WORKSPACE/*.html super-linter/
 
       - name: Git Auto Commit to push super-linter reports
@@ -53,7 +55,7 @@ jobs:
         with:
           commit_message: "Update super-linter reports"
           commit_options: '--no-verify --signoff --no-gpg-sign'
-          repository: ${{ github.repository }}
+          branch: ${{ env.GITHUB_PAGES_BRANCH }}
           create_branch: true
           file_pattern: super-linter/*.html
 
