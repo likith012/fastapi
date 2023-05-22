@@ -61,16 +61,12 @@ jobs:
         run: |
           mkdir -p super-linter
           mv *.html super-linter/
-          shopt -s extglob
-          rm -rf !(super-linter)
 
-      - name: Git Auto Commit to push super-linter reports
-        uses: stefanzweifel/git-auto-commit-action@v4
+      - name: Publish super-linter reports to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          commit_message: "Update super-linter reports"
-          commit_options: '--no-verify --signoff --no-gpg-sign'
-          branch: ${{ env.GITHUB_PAGES_BRANCH }}
-          create_branch: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./super-linter
 
 
   test:
