@@ -60,7 +60,7 @@ jobs:
       - name: Move super-linter report files
         run: |
           mkdir -p super-linter
-          mv $GITHUB_WORKSPACE/*.html super-linter/
+          mv *.html super-linter/
           shopt -s extglob
           rm -rf !(super-linter)
 
