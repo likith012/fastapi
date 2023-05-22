@@ -55,7 +55,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DISABLE_ERRORS: true
           VALIDATE_ALL_CODEBASE: false
-          OUTPUT_DETAILS: html
+          OUTPUT_FORMAT: html
+          OUTPUT_DETAILS: detailed
 
       - name: Move super-linter report files
         run: |
