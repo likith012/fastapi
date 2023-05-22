@@ -48,30 +48,18 @@ jobs:
         with:
           sarif_file: snyk.sarif
 
-      # - name: Run Super-Linter
-      #   uses: github/super-linter@v5
-      #   env:
-      #     DEFAULT_BRANCH: main
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     DISABLE_ERRORS: true
-      #     VALIDATE_ALL_CODEBASE: true
-          # OUTPUT_DETAILS: detailed
-
-      - name: Run Super-Linter and capture output
-        uses: actions/github-script@v5
+      - name: Run Super-Linter
+        uses: github/super-linter@v5
         env:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DISABLE_ERRORS: true
           VALIDATE_ALL_CODEBASE: true
           OUTPUT_DETAILS: detailed
-        with:
-          script: |
-            const response = await github.actions.run('github/super-linter@v5');
-            const output = response.outputs.linter_output;
-            require('fs').writeFileSync('linter.log', output);
 
-
+      - name: Save Super-Linter output to file
+        run: |
+          echo "${{ steps.superlinter.outputs.linter-output }}" > linter.log
 
       - name: Generate HTML Report
         run: |
