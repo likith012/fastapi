@@ -34,6 +34,10 @@ jobs:
         with:
           jupyter: true
 
+      - uses: isort/isort-action@v1
+        with:
+          requirements-files: "requirements.txt requirements-test.txt"
+
       # - name: Run Super-Linter
       #   uses: github/super-linter@v5
       #   env:
@@ -43,26 +47,22 @@ jobs:
       #     VALIDATE_ALL_CODEBASE: false
       #     OUTPUT_DETAILS: html
 
-      - name: Move super-linter report files
-        run: |
-          mkdir -p super-linter
-          echo "Moving super-linter reports to super-linter directory" > index.html
-          echo $PWD
-          echo $GITHUB_WORKSPACE
-          ls -l
-          mv $GITHUB_WORKSPACE/*.html super-linter/
+      # - name: Move super-linter report files
+      #   run: |
+      #     mkdir -p super-linter
+      #     echo "Moving super-linter reports to super-linter directory" > index.html
+      #     echo $PWD
+      #     echo $GITHUB_WORKSPACE
+      #     ls -l
+      #     mv $GITHUB_WORKSPACE/*.html super-linter/
 
-      - name: Git Auto Commit to push super-linter reports
-        run: |
-          cd super-linter
-          git init
-          git config user.name "${GITHUB_ACTOR}"
-          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-          git remote add origin "https://github.com/${{ github.repository }}.git"
-          git add .
-          git commit -m "Update super-linter reports"
-          git pull origin ${{ env.GITHUB_PAGES_BRANCH }}
-          git push --force "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:${{ env.GITHUB_PAGES_BRANCH }}
+      # - name: Git Auto Commit to push super-linter reports
+      #   uses: stefanzweifel/git-auto-commit-action@v4
+      #   with:
+      #     commit_message: "Update super-linter reports"
+      #     commit_options: '--no-verify --signoff --no-gpg-sign'
+      #     branch: ${{ env.GITHUB_PAGES_BRANCH }}
+      #     create_branch: true
 
 
   test:
