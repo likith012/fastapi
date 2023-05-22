@@ -34,10 +34,6 @@ jobs:
         with:
           jupyter: true
 
-      - uses: isort/isort-action@v1
-        with:
-          requirements-files: "requirements.txt requirements-test.txt"
-
       # - name: Run Super-Linter
       #   uses: github/super-linter@v5
       #   env:
@@ -63,6 +59,19 @@ jobs:
       #     commit_options: '--no-verify --signoff --no-gpg-sign'
       #     branch: ${{ env.GITHUB_PAGES_BRANCH }}
       #     create_branch: true
+
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/python@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --sarif-file-output=snyk.sarif
+
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: snyk.sarif
 
 
   test:
@@ -124,7 +133,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
-      - name: Upload code coverage report
+      - name: Upload code coverage report as artifact
         uses: actions/upload-artifact@v2
         with:
           name: code-coverage-report
