@@ -18,4 +18,4 @@ alembic upgrade head
 # The 'app.main:app' argument specifies that the 'app' instance in the 'main' module should be used as the application
 # Use the --workers option to specify the number of worker processes to start (optional)
 # Use the --log-level option to set the log level (optional)
-uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 1 --log-level info
+uvicorn app.main:app --host 0.0.0.0 --port 5000 --workers 1 --log-level info
