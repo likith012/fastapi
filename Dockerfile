@@ -1,14 +1,9 @@
-FROM ubuntu:22.04
+FROM python:3.10
 
 LABEL maintainer="Likith Reddy"
 
-# Anaconda
-ENV PATH="/root/miniconda3/bin:${PATH}"
-ARG PATH="/root/miniconda3/bin:${PATH}"
-
 # Prevent docker build get stopped by requesting user interaction
 ENV DEBIAN_FRONTEND=noninteractive
-ENV DEBCONF_NONINTERACTIVE_SEEN=true
 
 # Python byte-code
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -19,36 +14,27 @@ ENV PYTHONIOENCODING=UTF-8
 ENV LANG=C.UTF-8
 ENV LC_ALL=C.UTF-8
 
-# Framework
-ARG PYTHON_VERSION=3.10
+# Variables
+ARG ROOT=/root
 
 # Linux dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    ca-certificates \
-    openssh-client \
-    openssh-server \
-    unzip \
-    wget \
     nginx \
     supervisor
 
-# Conda install
-RUN cd /root \
-    && wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
-    && sh Miniconda3-latest-Linux-x86_64.sh -b \
-    && rm -f Miniconda3-latest-Linux-x86_64.sh \
-    && conda install python=${PYTHON_VERSION} \
-    && mkdir -p src
+RUN mkdir -p src
 
-WORKDIR /root/src
+WORKDIR ${ROOT}/src
 
 COPY requirements.txt .
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN python -m venv venv \
+    && venv/bin/pip install --no-cache-dir -r requirements.txt \
+    && echo 'source venv/bin/activate' >> ${ROOT}/.bashrc
 
 COPY . .
 
 RUN chmod +x scripts/docker_run.sh
 
-CMD ["scripts/docker_run.sh"]
+CMD ["/bin/bash", "-c", "source ~/.bashrc && scripts/docker_run.sh"]
