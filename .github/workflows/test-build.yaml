@@ -228,7 +228,6 @@ jobs:
 
       - name: test
         run: |
-          echo ${{ steps.meta.outputs.labels }}
           echo ${{ steps.docker_build.outputs.digest }}
 
       - name: Export digest
