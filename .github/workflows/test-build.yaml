@@ -276,7 +276,7 @@ jobs:
         working-directory: /tmp/digests
         run: |
           docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
-            $(printf '${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:${{ env.APP_VERSION }}@sha256:%s ' *)
+            $(printf '${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:${{ env.APP_VERSION }}' *)
 
       - name: Inspect image
         run: |
