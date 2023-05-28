@@ -1,4 +1,4 @@
-FROM python:3.10
+FROM python:3.10-slim-buster
 
 LABEL maintainer="Likith Reddy"
 
@@ -17,13 +17,7 @@ ENV LC_ALL=C.UTF-8
 # Variables
 ARG ROOT=/root
 
-# Linux dependencies
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    nginx \
-    supervisor
-
-RUN mkdir -p src
+RUN mkdir -p ${ROOT}/src
 
 WORKDIR ${ROOT}/src
 
