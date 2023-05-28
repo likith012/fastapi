@@ -219,7 +219,7 @@ jobs:
           file: ./Dockerfile
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
-          outputs: type=image,name=${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }},push-by-digest=true,name-canonical=true,push=true
+          outputs: type=image,name=${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }},name-canonical=true,push=true
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:${{ env.APP_VERSION }}
             ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:latest
