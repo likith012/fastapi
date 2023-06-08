@@ -3,11 +3,9 @@ version: '3.8'
 services:
   fastapi:
     container_name: fastapi
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ikith012/fastapi-docker:latest
     ports:
-      - '5000:5000'
+      - '80:5000'
     environment:
       - DATABASE_TYPE=${DATABASE_TYPE}
       - DATABASE_DRIVER=${DATABASE_DRIVER}
@@ -21,8 +19,6 @@ services:
       - ACCESS_TOKEN_EXPIRE_MINUTES=${ACCESS_TOKEN_EXPIRE_MINUTES}
     depends_on:
       - postgres
-    volumes:
-      - .:/root/src
 
   postgres:
     container_name: postgres

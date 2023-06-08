@@ -22,8 +22,10 @@ services:
     depends_on:
       - postgres
     volumes:
-      - .:/root/src
-    command: ["scripts/docker_run_dev.sh"]
+      - ./app:/root/src/app
+      - ./scripts:/root/src/scripts
+      - ./alembic:/root/src/alembic
+    command: ["/bin/bash", "-c", "source ~/.bashrc && scripts/docker_run_dev.sh"]
 
   postgres:
     container_name: postgres
