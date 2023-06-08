@@ -211,7 +211,7 @@ jobs:
       - name: Build and push Docker images
         run: |
           docker buildx create --use
-          docker buildx build --platform ${{ matrix.platform }} --push -t ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:latest-${{ matrix.platform }} --file ${{ env.DOCKERFILE }} ${{ env.BUILD_CONTEXT }}
+          docker buildx build --platform ${{ matrix.platform }} --push -t ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:latest --file ${{ env.DOCKERFILE }} ${{ env.BUILD_CONTEXT }}
 
       - name: Save Docker Buildx cache
         uses: actions/cache@v2
