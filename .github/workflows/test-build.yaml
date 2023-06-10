@@ -41,7 +41,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: test
-          args: --all-projects --all-projects-dependencies --sarif-file-output=snyk.sarif
+          args: --all-projects --all-projects-dependencies --create-pull-request --sarif-file-output=snyk.sarif
 
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
@@ -55,7 +55,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: monitor
-          args: --all-projects --all-projects-dependencies --create-pull-request
+          args: --all-projects --all-projects-dependencies
 
       # - name: Run Super-Linter
       #   uses: github/super-linter@v5
