@@ -34,18 +34,19 @@ jobs:
         with:
           jupyter: true
 
-      # - name: Run Snyk to check for vulnerabilities
-      #   uses: snyk/actions/python@master
-      #   continue-on-error: true
-      #   env:
-      #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      #   with:
-      #     args: --sarif-file-output=snyk.sarif
+      - name: Run Snyk for Software Composition Analysis
+        uses: snyk/actions/python@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: monitor
+          args: --all-projects --all-projects-dependencies --create-pull-request --sarif-file-output=snyk.sarif
 
-      # - name: Upload result to GitHub Code Scanning
-      #   uses: github/codeql-action/upload-sarif@v2
-      #   with:
-      #     sarif_file: snyk.sarif
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: snyk.sarif
 
       # - name: Run Super-Linter
       #   uses: github/super-linter@v5
