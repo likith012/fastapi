@@ -19,10 +19,6 @@ jobs:
     environment:
       name: "Testing"
 
-    permissions:
-      contents: write
-      security-events: write
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -112,6 +108,10 @@ jobs:
 
     environment:
       name: "Testing"
+
+    permissions:
+      contents: write
+      security-events: write
 
     steps:
       - name: Checkout code
