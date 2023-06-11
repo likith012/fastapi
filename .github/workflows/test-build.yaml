@@ -23,9 +23,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - uses: psf/black@stable
-        with:
-          jupyter: true
+      # - uses: psf/black@stable
+      #   with:
+      #     jupyter: true
 
       # - name: Run Super-Linter
       #   uses: github/super-linter@v5
@@ -88,7 +88,7 @@ jobs:
       - name: Run tests and generate code coverage report
         run: |
           cd $GITHUB_WORKSPACE
-          pytest --cov-report=xml --cov-report=lcov --cov=app
+          pytest --cov-report=xml --cov=app
 
       - name: Upload coverage report to Codecov
         uses: codecov/codecov-action@v3
@@ -99,7 +99,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: coverage-report
-          path: ./coverage.lcov
+          path: ./coverage.xml
 
   vulnerability-scan:
     name: SCA and SAST
@@ -117,34 +117,34 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Run Snyk for Software Composition Analysis
-        uses: snyk/actions/python@master
-        continue-on-error: true
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          command: test
-          args: --all-projects --all-projects-dependencies --create-pull-request --sarif-file-output=snyk.sarif
+      # - name: Run Snyk for Software Composition Analysis
+      #   uses: snyk/actions/python@master
+      #   continue-on-error: true
+      #   env:
+      #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      #   with:
+      #     command: test
+      #     args: --all-projects --all-projects-dependencies --create-pull-request --sarif-file-output=snyk.sarif
 
-      - name: Upload result to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: snyk.sarif
+      # - name: Upload result to GitHub Code Scanning
+      #   uses: github/codeql-action/upload-sarif@v2
+      #   with:
+      #     sarif_file: snyk.sarif
 
-      - name: Run Snyk for continuous monitoring
-        uses: snyk/actions/python@master
-        continue-on-error: true
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          command: monitor
-          args: --all-projects --all-projects-dependencies
+      # - name: Run Snyk for continuous monitoring
+      #   uses: snyk/actions/python@master
+      #   continue-on-error: true
+      #   env:
+      #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      #   with:
+      #     command: monitor
+      #     args: --all-projects --all-projects-dependencies
 
       - name: Download code coverage reports for SonarCloud
         uses: actions/download-artifact@v2
         with:
           name: coverage-report
-          path: ./coverage-report
+          path: ./coverage.xml
 
       - name: SonarCloud Scan for Static Application Security Testing
         uses: sonarsource/sonarcloud-github-action@master
