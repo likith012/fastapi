@@ -151,10 +151,21 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          extraProperties: |
-            sonar.python.coverage.reportPaths=coverage.xml
-            sonar.projectVersion=${{ github.sha }}
+        # with:
+        #   args: >
+        #     -Dsonar.projectKey=${{ github.repository }}
+        #     -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
+        #     -Dsonar.sources=.
+        #     -Dsonar.exclusions=**/tests/**,**/migrations/**
+        #     -Dsonar.tests=.
+        #     -Dsonar.test.inclusions=**/tests/**
+        #     -Dsonar.python.coverage.reportPaths=coverage.xml
+        #     -Dsonar.python.xunit.reportPath=pytest.xml
+        #     -Dsonar.python.bandit.reportPaths=bandit.json
+        #     -Dsonar.python.pylint.reportPaths=pylint.json
+        #     -Dsonar.python.flake8.reportPaths=flake8.json
+        #     -Dsonar.python.mypy.reportPaths=mypy.json
+        #     -Dsonar.python.codeCoveragePlugin=clover
 
   build:
     name: Build and Push Docker Image
