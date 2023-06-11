@@ -88,7 +88,7 @@ jobs:
       - name: Run tests and generate code coverage report
         run: |
           cd $GITHUB_WORKSPACE
-          pytest --cov-report=xml --cov=app
+          pytest --cov-report=xml --cov-report=lcov --cov=app
 
       - name: Upload coverage report to Codecov
         uses: codecov/codecov-action@v3
@@ -99,7 +99,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: coverage-report
-          path: ./coverage.xml
+          path: ./coverage.lcov
 
   vulnerability-scan:
     name: SCA and SAST
