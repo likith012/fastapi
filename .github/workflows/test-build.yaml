@@ -167,6 +167,9 @@ jobs:
         #     -Dsonar.python.mypy.reportPaths=mypy.json
         #     -Dsonar.python.codeCoveragePlugin=clover
 
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+
   build:
     name: Build and Push Docker Image
     runs-on: ubuntu-latest
