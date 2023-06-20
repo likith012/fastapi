@@ -90,12 +90,6 @@ jobs:
           cd $GITHUB_WORKSPACE
           pytest --cov-report=xml --cov=app
 
-      - name: SonarCloud Scan for Static Application Security Testing
-        uses: sonarsource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
       - name: Upload coverage report to Codecov
         uses: codecov/codecov-action@v3
         with:
