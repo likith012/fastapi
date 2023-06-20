@@ -85,7 +85,7 @@ jobs:
       - name: Install project dependencies
         run: pip install -r requirements-test.txt
 
-      - name: Run tests and generate code coverage report
+      - name: Run unit tests and generate code coverage report
         run: |
           cd $GITHUB_WORKSPACE
           pytest --cov-report=xml --cov=app
